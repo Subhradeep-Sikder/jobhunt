@@ -2,7 +2,11 @@ import React from 'react'
 
 const EmployerDashboard = () => {
   return (
-    <div>EmployerDashboard</div>
+    <div>
+      EmployerDashboard <br />
+      This is only visible to employer. <br />
+      
+      </div>
   )
 }
 
