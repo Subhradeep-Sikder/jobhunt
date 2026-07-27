@@ -7,12 +7,11 @@ export default function AboutUs() {
       
         
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-          Under Construction
+          Why Us
         </h1>
         
-        <p className="text-neutral-400 text-sm leading-relaxed">
-          We're working on building this page. 
-          </p>
+      
+    
 
         <div className="pt-4">
           <Link

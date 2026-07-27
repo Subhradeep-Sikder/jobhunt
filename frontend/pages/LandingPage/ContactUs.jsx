@@ -7,9 +7,9 @@ export default function AboutUs() {
       
       
         
-        <p className="text-neutral-400 text-sm leading-relaxed">
-          bellow the landing lage there will be contact us pafe redirect to there
-          </p>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+          Contact Us
+        </h1>
 
         <div className="pt-4">
           <Link
