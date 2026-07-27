@@ -9,6 +9,7 @@ import {
   AlertCircle,
   CheckCircle,
 } from 'lucide-react';
+import API from '../../src/services/api';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -70,7 +71,7 @@ const Login = () => {
     return Object.keys(errors).length === 0;
   };
 
-  // Handle form submission
+  // Handle form submission with backend API integration
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -78,17 +79,35 @@ const Login = () => {
     setFormState((prev) => ({ ...prev, loading: true, error: {} }));
 
     try {
-      // Simulate an asynchronous API login call
+      const response = await API.post('/auth/login', {
+        email: formData.email,
+        password: formData.password,
+      });
 
+      const { token, role, fullName, user } = response.data;
 
+      // Save session credentials
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role || user?.role);
+      localStorage.setItem('fullName', fullName || user?.fullName || 'User');
 
-  
+      setFormState((prev) => ({ ...prev, loading: false, success: true }));
+
+      // Redirect user based on role after short delay
+      setTimeout(() => {
+        const userRole = role || user?.role;
+        window.location.href = userRole === 'employer' ? '/employer-dashboard' : '/find-jobs';
+      }, 1200);
     } catch (error) {
       setFormState((prev) => ({
         ...prev,
-        loading: false
-      ,
-        error: { general: 'Something went wrong. Please try again.' },
+        loading: false,
+        error: {
+          general:
+            error.response?.data?.error ||
+            error.response?.data?.message ||
+            'Invalid email or password. Please try again.',
+        },
       }));
     }
   };
@@ -212,10 +231,6 @@ const Login = () => {
               </p>
             )}
           </div>
-
-          
-          
-          
 
           {/* Submit Button */}
           <button

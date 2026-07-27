@@ -21,7 +21,7 @@ const TrustedPlatform = () => {
             <p>
               At Job Hunt Placement, we are committed to fostering long-term relationships based on trust, reliability, and professionalism. Our extensive network and industry knowledge help us deliver high-quality placements that contribute to the growth and success of both individuals and organizations.
             </p>
-            <p font-medium text-slate-900>
+            <p className="font-medium text-slate-900">
               As a trusted partner in the recruitment industry, we continue to build on our legacy of success, ensuring that our clients and candidates achieve their goals. Join us today and experience the Job Hunt Placement difference!
             </p>
           </div>

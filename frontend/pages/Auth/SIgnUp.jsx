@@ -12,6 +12,7 @@ import {
   UserCheck,
   Building2,
 } from 'lucide-react';
+import API from '../../src/services/api';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -87,7 +88,7 @@ const Signup = () => {
     return Object.keys(errors).length === 0;
   };
 
-  // Handle form submission
+  // Handle form submission with backend API integration
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -95,19 +96,39 @@ const Signup = () => {
     setFormState((prev) => ({ ...prev, loading: true, error: {} }));
 
     try {
-      // Simulate an asynchronous API signup call
-    
+      const response = await API.post('/auth/register', {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+      });
 
+      const { token, role, fullName } = response.data;
 
+      // Save session credentials
+      if (token) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role || formData.role);
+        localStorage.setItem('fullName', fullName || formData.fullName);
+      }
 
+      setFormState((prev) => ({ ...prev, loading: false, success: true }));
 
-
-      
+      // Redirect user based on role after short delay
+      setTimeout(() => {
+        const userRole = role || formData.role;
+        window.location.href = userRole === 'employer' ? '/employer-dashboard' : '/find-jobs';
+      }, 1200);
     } catch (error) {
       setFormState((prev) => ({
         ...prev,
         loading: false,
-        error: { general: 'Something went wrong. Please try again.' },
+        error: {
+          general:
+            error.response?.data?.message ||
+            error.response?.data?.error ||
+            'Something went wrong. Please try again.',
+        },
       }));
     }
   };
