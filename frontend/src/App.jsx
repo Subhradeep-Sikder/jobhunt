@@ -36,7 +36,7 @@ function App() {
             <Route path="/employer-dashboard" element={<EmployerDashboard />} />
           </Route>
 
-          {/* Catch-all Route */}
+          {/* Ca */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
